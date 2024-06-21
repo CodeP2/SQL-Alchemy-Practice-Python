@@ -1,4 +1,4 @@
-from sqlalchemy import create_engine, Column, Intiger, String, Date
+from sqlalchemy import create_engine, Column, Integer, String, Date
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy.types import Numeric
@@ -13,7 +13,7 @@ Base = declarative_base()
 class Books(Base):
     __tablename__ = 'Books'
 
-    id = Column(Intiger ,primary_key=True)
+    id = Column(Integer ,primary_key=True)
     author = Column(String)
     published = Column(Date)
     price = Column(Numeric(10, 2))
