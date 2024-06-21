@@ -7,6 +7,11 @@ def add_book(new_author, new_publish_time, new_price):
     date_conv, deci_conv = data_cleaning(new_publish_time, new_price)
     book = books_holder.Books(author=new_author, published=date_conv, price=deci_conv)
     books_holder.session.add(book)
+    question = input(f"Are you sure you want to add {new_author} to data base?(Y/N):\n")
+    if question.lower() == "y":
+        books_holder.session.commit()
+    else:
+        pass
 
 def edit_book(book_index):
     pass    
@@ -37,7 +42,8 @@ def main_menu():
         elif decision == 2:
             pass
         elif decision == 3:
-            print("Options: []")
+            for book in books_holder.session.query(books_holder.Books.id):
+                print(f"Options: [{book}]")
             index_num = int(input("What is the book's id? "))
             search_book(index_num)
         elif decision == 4:
