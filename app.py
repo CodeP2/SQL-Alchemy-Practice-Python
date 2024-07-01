@@ -13,20 +13,48 @@ def add_book(new_author, new_publish_time, new_price):
     else:
         pass
 
-def edit_book(book_index):
-    pass    
 
-def delete_book():
+def edit_book(entry):
+    option = int(input("What kind of entry would you like to change?\n\
+                       1) Author\n2) Publish data\n3) Price\n"))
+    if option == 1:
+        new_author = input("Author: ")
+        entry.author = new_author
+    elif option == 2:
+        new_publish = input("Published (Example: January 13, 2005): ")
+        data_cleaning(new_publish)
+        entry.published = new_publish
+    elif option == 3:
+        new_price = input("Price (Example: 12.22): ")
+        data_cleaning(None, new_price)
+        entry.price = new_price
+    you_sure = input("Are you sure you want to commit those changes?(Y/N)\n")
+    if you_sure == 1:
+        books_holder.session.commit()
+    else:
+        pass
+
+
+def delete_book(book_index):
     pass
+
 
 def search_book(index_number):
     for entry in books_holder.session.query(books_holder.Books).filter(books_holder.Books.id==index_number):
-        print(entry)
+        return entry
 
-def data_cleaning(to_date, to_decimal):
+
+def data_cleaning(to_date=None, to_decimal=None):
     date = datetime.datetime.strptime(to_date, '%B %d, %Y').date()
     decimal = Decimal(to_decimal)
     return date, decimal
+
+
+def edit_or_delete_menu(entry):
+    option = int(input("what would you like to do?\n\n1) Edit a book\n2) Delete a book\n3) Exit\n\n"))
+    if option == 1:
+        edit_book(entry)
+
 
 def main_menu():
     while True:
@@ -43,13 +71,15 @@ def main_menu():
             pass
         elif decision == 3:
             for book in books_holder.session.query(books_holder.Books.id):
-                print(f"Options: [{book}]")
+                print(f"Options: {book}")
             index_num = int(input("What is the book's id? "))
-            search_book(index_num)
+            entry = search_book(index_num)
+            edit_or_delete_menu(entry)
         elif decision == 4:
             pass
         elif decision == 5:
             break
+
 
 books_holder.Base.metadata.create_all(books_holder.engine)
 main_menu()
