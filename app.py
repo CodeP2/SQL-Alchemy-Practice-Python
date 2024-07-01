@@ -8,8 +8,15 @@ def add_book(new_author, new_publish_time, new_price):
     book = books_holder.Books(author=new_author, published=date_conv, price=deci_conv)
     books_holder.session.add(book)
     question = input(f"Are you sure you want to add {new_author} to data base?(Y/N):\n")
+    while True:
+        if question.lower() in ["y", "n"]:
+            break
+        else:
+            print("That's inncorrect input please try again(Correct inputs are (Y/N))")
+            question = input(f"Are you sure you want to add {new_author} to data base?(Y/N):\n")
     if question.lower() == "y":
         books_holder.session.commit()
+        print("Book added!")
     else:
         pass
 
@@ -81,7 +88,6 @@ def main_menu():
             published = input("Published (Example: January 13, 2005): ")
             price = input("Price (Example: 12.22): ")
             add_book(author, published, price)
-            print("Book added!")
         elif decision == 2:
             pass
         elif decision == 3:
