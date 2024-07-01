@@ -15,28 +15,34 @@ def add_book(new_author, new_publish_time, new_price):
 
 
 def edit_book(entry):
-    option = int(input("What kind of entry would you like to change?\n\
+    option = int(input("What kind of entry would you like to change?\
                        1) Author\n2) Publish data\n3) Price\n"))
     if option == 1:
         new_author = input("Author: ")
         entry.author = new_author
     elif option == 2:
         new_publish = input("Published (Example: January 13, 2005): ")
-        data_cleaning(new_publish)
-        entry.published = new_publish
+        clean = data_cleaning(new_publish, None, 2)
+        entry.published = clean
     elif option == 3:
         new_price = input("Price (Example: 12.22): ")
-        data_cleaning(None, new_price)
-        entry.price = new_price
+        clean = data_cleaning(None, new_price, 3)
+        entry.price = clean
     you_sure = input("Are you sure you want to commit those changes?(Y/N)\n")
-    if you_sure == 1:
+    if you_sure.lower() == "y":
         books_holder.session.commit()
     else:
         pass
 
 
-def delete_book(book_index):
-    pass
+def delete_book(entry):
+    confirm_to_delete = input("Are you sure you want to delete the book?(Y/N)\
+                              (WARNING: This cannot be undone)")
+    if confirm_to_delete.lower() == "y":
+        books_holder.session.delete(entry)
+        books_holder.session.commit()
+    else:
+        pass
 
 
 def search_book(index_number):
@@ -44,16 +50,25 @@ def search_book(index_number):
         return entry
 
 
-def data_cleaning(to_date=None, to_decimal=None):
-    date = datetime.datetime.strptime(to_date, '%B %d, %Y').date()
-    decimal = Decimal(to_decimal)
-    return date, decimal
+def data_cleaning(to_date=None, to_decimal=None, option=1):
+    if option == 1:
+        date = datetime.datetime.strptime(to_date, '%B %d, %Y').date()
+        decimal = Decimal(to_decimal)
+        return date, decimal
+    elif option == 2:
+        date = datetime.datetime.strptime(to_date, '%B %d, %Y').date()
+        return date
+    elif option == 3:
+        decimal = Decimal(to_decimal)
+        return decimal
 
 
 def edit_or_delete_menu(entry):
     option = int(input("what would you like to do?\n\n1) Edit a book\n2) Delete a book\n3) Exit\n\n"))
     if option == 1:
         edit_book(entry)
+    elif option == 2:
+        delete_book(entry)
 
 
 def main_menu():
