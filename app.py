@@ -21,6 +21,13 @@ def add_book(new_author, new_publish_time, new_price):
         pass
 
 
+def show_all_books():
+    entry_number = 1
+    for entry in books_holder.session.query(books_holder.Books):
+        print(f"Entry number: {entry_number}:\n{entry}")
+        entry_number += 1
+
+
 def edit_book(entry):
     option = int(input("What kind of entry would you like to change?\
                         \n1) Author\n2) Publish data\n3) Price\n\n"))
@@ -90,7 +97,7 @@ def main_menu():
             price = input("Price (Example: 12.22): ")
             add_book(author, published, price)
         elif decision == 2:
-            pass
+            show_all_books()
         elif decision == 3:
             all_books = []
             for book in books_holder.session.query(books_holder.Books.id):
