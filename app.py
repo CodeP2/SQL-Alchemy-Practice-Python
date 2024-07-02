@@ -22,8 +22,10 @@ def add_book(new_author, new_publish_time, new_price):
 
 
 def edit_book(entry):
-    option = int(input("What kind of entry would you like to change?\
-                       1) Author\n2) Publish data\n3) Price\n"))
+    option = int(input("""What kind of entry would you like to change?
+1) Author
+2) Publish data
+3) Price\n\n"""))
     if option == 1:
         new_author = input("Author: ")
         entry.author = new_author
@@ -43,8 +45,8 @@ def edit_book(entry):
 
 
 def delete_book(entry):
-    confirm_to_delete = input("Are you sure you want to delete the book?(Y/N)\
-                              (WARNING: This cannot be undone)")
+    confirm_to_delete = input("""Are you sure you want to delete the book?(Y/N)
+(WARNING: This cannot be undone)\n\n""")
     if confirm_to_delete.lower() == "y":
         books_holder.session.delete(entry)
         books_holder.session.commit()
@@ -54,6 +56,7 @@ def delete_book(entry):
 
 def search_book(index_number):
     for entry in books_holder.session.query(books_holder.Books).filter(books_holder.Books.id==index_number):
+        print(entry)
         return entry
 
 
@@ -91,8 +94,10 @@ def main_menu():
         elif decision == 2:
             pass
         elif decision == 3:
+            all_books = []
             for book in books_holder.session.query(books_holder.Books.id):
-                print(f"Options: {book}")
+                all_books.append(book)
+            print(f"Options: {[item[0] for item in all_books]}")
             index_num = int(input("What is the book's id? "))
             entry = search_book(index_num)
             edit_or_delete_menu(entry)
