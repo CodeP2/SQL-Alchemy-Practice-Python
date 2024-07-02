@@ -15,6 +15,7 @@ class Books(Base):
 
     id = Column(Integer ,primary_key=True)
     author = Column(String)
+    title = Column(String)
     published = Column(Date)
     price = Column(Numeric(10, 2))
     

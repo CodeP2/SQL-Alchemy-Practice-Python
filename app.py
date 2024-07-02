@@ -3,9 +3,9 @@ import datetime
 from decimal import Decimal
 
 
-def add_book(new_author, new_publish_time, new_price):
+def add_book(new_author, new_title, new_publish_time, new_price):
     date_conv, deci_conv = data_cleaning(new_publish_time, new_price)
-    book = books_holder.Books(author=new_author, published=date_conv, price=deci_conv)
+    book = books_holder.Books(author=new_author, title=new_title, published=date_conv, price=deci_conv)
     books_holder.session.add(book)
     question = input(f"Are you sure you want to add {new_author} to data base?(Y/N):\n")
     while True:
@@ -87,7 +87,8 @@ def delete_book(entry):
 
 
 def book_analysis():
-    pass
+    oldest_book = books_holder.session.query(books_holder.Books).order_by(books_holder.Books.published).first()
+    return f"{oldest_book}"
 
 
 def main_menu():
@@ -97,9 +98,10 @@ def main_menu():
         decision = int(input("What Would you like to do?\n"))
         if decision == 1:
             author = input("Author: ")
+            title = input("Title of the book: ")
             published = input("Published (Example: January 13, 2005): ")
             price = input("Price (Example: 12.22): ")
-            add_book(author, published, price)
+            add_book(author, title, published, price)
         elif decision == 2:
             show_all_books()
         elif decision == 3:
@@ -111,7 +113,7 @@ def main_menu():
             entry = search_book(index_num)
             edit_or_delete_menu(entry)
         elif decision == 4:
-            pass
+            print(book_analysis())
         elif decision == 5:
             break
 
