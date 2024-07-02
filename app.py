@@ -7,18 +7,7 @@ def add_book(new_author, new_title, new_publish_time, new_price):
     date_conv, deci_conv = data_cleaning(new_publish_time, new_price)
     book = books_holder.Books(author=new_author, title=new_title, published=date_conv, price=deci_conv)
     books_holder.session.add(book)
-    question = input(f"Are you sure you want to add {new_author} to data base?(Y/N):\n")
-    while True:
-        if question.lower() in ["y", "n"]:
-            break
-        else:
-            print("That's inncorrect input please try again(Correct inputs are (Y/N))")
-            question = input(f"Are you sure you want to add {new_author} to data base?(Y/N):\n")
-    if question.lower() == "y":
-        books_holder.session.commit()
-        print("Book added!")
-    else:
-        pass
+    yes_or_no_menu()
 
 
 def data_cleaning(to_date=None, to_decimal=None, option=1):
@@ -43,12 +32,11 @@ def show_all_books():
 
 def search_book(index_number):
     for entry in books_holder.session.query(books_holder.Books).filter(books_holder.Books.id==index_number):
-        print(entry)
         return entry
 
 
 def edit_or_delete_menu(entry):
-    option = int(input("what would you like to do?\n\n1) Edit a book\n2) Delete a book\n3) Exit\n\n"))
+    option = int(input("what would you like to do?\n\n1) Edit a book\n2) Delete a book\n3) Exit\n\n>  "))
     if option == 1:
         edit_book(entry)
     elif option == 2:
@@ -56,8 +44,9 @@ def edit_or_delete_menu(entry):
 
 
 def edit_book(entry):
+    print(f"Currently you are trying to edit:\n{entry}")
     option = int(input("What kind of entry would you like to change?\
-                        \n1) Author\n2) Publish data\n3) Price\n\n"))
+                        \n1) Author\n2) Publish data\n3) Price\n\n>  "))
     if option == 1:
         new_author = input("Author: ")
         entry.author = new_author
@@ -69,16 +58,12 @@ def edit_book(entry):
         new_price = input("Price (Example: 12.22): ")
         clean = data_cleaning(None, new_price, 3)
         entry.price = clean
-    you_sure = input("Are you sure you want to commit those changes?(Y/N)\n")
-    if you_sure.lower() == "y":
-        books_holder.session.commit()
-    else:
-        pass
+    yes_or_no_menu()
 
 
 def delete_book(entry):
     confirm_to_delete = input("Are you sure you want to delete the book?(Y/N)\
-                            \n(WARNING: This cannot be undone)\n\n")
+                            \n(WARNING: This cannot be undone)\n\n>  ")
     if confirm_to_delete.lower() == "y":
         books_holder.session.delete(entry)
         books_holder.session.commit()
@@ -86,16 +71,56 @@ def delete_book(entry):
         pass
 
 
-def book_analysis():
-    oldest_book = books_holder.session.query(books_holder.Books).order_by(books_holder.Books.published).first()
-    return f"{oldest_book}"
+def yes_or_no_menu():
+    question = input(f"Are you sure you want to add/edit this user?(Y/N):\n")
+    while True:
+        if question.lower() in ["y", "n"]:
+            break
+        else:
+            question = input(f"That's inncorrect input please try again (Correct inputs are (Y/N)\
+                            \nAre you sure you want to add/edit this user?(Y/N):\n")
+    if question.lower() == "y":
+        books_holder.session.commit()
+        print("Book added!")
+    else:
+        pass
+
+
+def book_analysis_menu():
+    option = int(input("Analysis Menu\n1) Show the oldest book by publish date\n2) Show the newset book by publish date\
+                       \n3) Show total number of the books\n4) Average price for all books\n>  "))
+    if option == 1:
+        print(oldest_book())
+    elif option == 2:
+        print(newest_book())
+    elif option == 3:
+        print(total_books())
+    elif option == 4:
+        print(avg_price())
+    input("Press enter to continue...")
+
+
+def oldest_book():
+    return books_holder.session.query(books_holder.Books).order_by(books_holder.Books.published).first()
+
+
+def newest_book():
+    return books_holder.session.query(books_holder.Books).order_by(books_holder.desc(books_holder.Books.published)).first()
+
+
+def total_books():
+    return books_holder.session.query(books_holder.func.count()).select_from(books_holder.Books).scalar()
+
+
+def avg_price():
+    return books_holder.session.query(books_holder.func.avg(books_holder.Books.price)).scalar()
 
 
 def main_menu():
     while True:
         print("PROGRAMING BOOKS\n1) Add Book\n2) View All Books\n3) Search for a book\
               \n4) Book Analysis\n5) Exit\n")
-        decision = int(input("What Would you like to do?\n"))
+        decision = int(input("What Would you like to do?\n>  "))
         if decision == 1:
             author = input("Author: ")
             title = input("Title of the book: ")
@@ -105,15 +130,12 @@ def main_menu():
         elif decision == 2:
             show_all_books()
         elif decision == 3:
-            all_books = []
-            for book in books_holder.session.query(books_holder.Books.id):
-                all_books.append(book)
-            print(f"Options: {[item[0] for item in all_books]}")
+            print(f"Options: {[item[0] for item in books_holder.session.query(books_holder.Books.id)]}")
             index_num = int(input("What is the book's id? "))
             entry = search_book(index_num)
             edit_or_delete_menu(entry)
         elif decision == 4:
-            print(book_analysis())
+            print(book_analysis_menu())
         elif decision == 5:
             break
 
