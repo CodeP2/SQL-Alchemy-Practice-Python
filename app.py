@@ -21,11 +21,38 @@ def add_book(new_author, new_publish_time, new_price):
         pass
 
 
+def data_cleaning(to_date=None, to_decimal=None, option=1):
+    if option == 1:
+        date = datetime.datetime.strptime(to_date, '%B %d, %Y').date()
+        decimal = Decimal(to_decimal)
+        return date, decimal
+    elif option == 2:
+        date = datetime.datetime.strptime(to_date, '%B %d, %Y').date()
+        return date
+    elif option == 3:
+        decimal = Decimal(to_decimal)
+        return decimal
+
+
 def show_all_books():
     entry_number = 1
     for entry in books_holder.session.query(books_holder.Books):
         print(f"Entry number: {entry_number}:\n{entry}")
         entry_number += 1
+
+
+def search_book(index_number):
+    for entry in books_holder.session.query(books_holder.Books).filter(books_holder.Books.id==index_number):
+        print(entry)
+        return entry
+
+
+def edit_or_delete_menu(entry):
+    option = int(input("what would you like to do?\n\n1) Edit a book\n2) Delete a book\n3) Exit\n\n"))
+    if option == 1:
+        edit_book(entry)
+    elif option == 2:
+        delete_book(entry)
 
 
 def edit_book(entry):
@@ -59,31 +86,8 @@ def delete_book(entry):
         pass
 
 
-def search_book(index_number):
-    for entry in books_holder.session.query(books_holder.Books).filter(books_holder.Books.id==index_number):
-        print(entry)
-        return entry
-
-
-def data_cleaning(to_date=None, to_decimal=None, option=1):
-    if option == 1:
-        date = datetime.datetime.strptime(to_date, '%B %d, %Y').date()
-        decimal = Decimal(to_decimal)
-        return date, decimal
-    elif option == 2:
-        date = datetime.datetime.strptime(to_date, '%B %d, %Y').date()
-        return date
-    elif option == 3:
-        decimal = Decimal(to_decimal)
-        return decimal
-
-
-def edit_or_delete_menu(entry):
-    option = int(input("what would you like to do?\n\n1) Edit a book\n2) Delete a book\n3) Exit\n\n"))
-    if option == 1:
-        edit_book(entry)
-    elif option == 2:
-        delete_book(entry)
+def book_analysis():
+    pass
 
 
 def main_menu():
