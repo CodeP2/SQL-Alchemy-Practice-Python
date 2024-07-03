@@ -5,11 +5,13 @@ from decimal import Decimal
 
 
 def add_book(new_author, new_title, new_publish_time, new_price):
-    date_conv, deci_conv = data_cleaning(new_publish_time, new_price)
-    book = books_holder.Books(author=new_author, title=new_title, published=date_conv, price=deci_conv)
-    books_holder.session.add(book)
-    yes_or_no_menu()
-
+    try:
+        date_conv, deci_conv = data_cleaning(new_publish_time, new_price)
+        book = books_holder.Books(author=new_author, title=new_title, published=date_conv, price=deci_conv)
+        books_holder.session.add(book)
+        yes_or_no_menu()
+    except ValueError as err:
+        print(f"failed to add a new book to data base: {err}")
 
 def data_cleaning(to_date=None, to_decimal=None, option=1):
     if option == 1:
@@ -37,11 +39,19 @@ def search_book(index_number):
 
 
 def edit_or_delete_menu(entry):
-    option = int(input("what would you like to do?\n\n1) Edit a book\n2) Delete a book\n3) Exit\n\n>  "))
-    if option == 1:
-        edit_book(entry)
-    elif option == 2:
-        delete_book(entry)
+    while True:
+        try:
+            option = int(input("what would you like to do?\n\n1) Edit a book\n2) Delete a book\n3) Exit\n\n>  "))
+            if option == 1:
+                edit_book(entry)
+            elif option == 2:
+                delete_book(entry)
+            elif option == 3:
+                break
+            else:
+                print("Incorrect Choice!")
+        except ValueError:
+            print(f"Incorect Choice!\nCorrect choices are: 1, 2, 3")
 
 
 def edit_book(entry):
@@ -105,24 +115,29 @@ def main_menu():
     while True:
         print("PROGRAMING BOOKS\n1) Add Book\n2) View All Books\n3) Search for a book\
               \n4) Book Analysis\n5) Exit\n")
-        decision = int(input("What Would you like to do?\n>  "))
-        if decision == 1:
-            author = input("Author: ")
-            title = input("Title of the book: ")
-            published = input("Published (Example: January 13, 2005): ")
-            price = input("Price (Example: 12.22): ")
-            add_book(author, title, published, price)
-        elif decision == 2:
-            show_all_books()
-        elif decision == 3:
-            print(f"Options: {[item[0] for item in books_holder.session.query(books_holder.Books.id)]}")
-            index_num = int(input("What is the book's id? "))
-            entry = search_book(index_num)
-            edit_or_delete_menu(entry)
-        elif decision == 4:
-            print(book_analysis_menu())
-        elif decision == 5:
-            break
+        try:
+            decision = int(input("What Would you like to do?\n>  "))
+            if decision == 1:
+                author = input("Author: ")
+                title = input("Title of the book: ")
+                published = input("Published (Example: January 13, 2005): ")
+                price = input("Price (Example: 12.22): ")
+                add_book(author, title, published, price)
+            elif decision == 2:
+                show_all_books()
+            elif decision == 3:
+                print(f"Options: {[item[0] for item in books_holder.session.query(books_holder.Books.id)]}")
+                index_num = int(input("What is the book's id? "))
+                entry = search_book(index_num)
+                edit_or_delete_menu(entry)
+            elif decision == 4:
+                print(book_analysis_menu())
+            elif decision == 5:
+                break
+            else:
+                print(f"Incorrect Choice: {decision}")
+        except ValueError:
+            print(f"Incorrect Choice.\nCorrect choices are: 1, 2, 3, 4, 5")
 
 
 books_holder.Base.metadata.create_all(books_holder.engine)
