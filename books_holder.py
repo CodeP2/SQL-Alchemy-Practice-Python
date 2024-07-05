@@ -1,4 +1,5 @@
 from sqlalchemy import create_engine, Column, Integer, String, Date
+from sqlalchemy import desc, func
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy.types import Numeric
