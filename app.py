@@ -118,10 +118,19 @@ def book_analysis_menu():
     input("Press enter to continue...")
 
 
+def main_menu_message():
+    print("""\rPROGRAMING BOOKS
+          \r1) Add Book
+          \r2) View All Books
+          \r3) Search for a book
+          \r4) Book Analysis
+          \r5) Exit
+          """)
+
+
 def main_menu():
     while True:
-        print("PROGRAMING BOOKS\n1) Add Book\n2) View All Books\n3) Search for a book\
-              \n4) Book Analysis\n5) Exit\n")
+        main_menu_message()
         try:
             decision = int(input("What Would you like to do?\n>  "))
             if decision == 1:
