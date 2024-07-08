@@ -21,4 +21,4 @@ class Books(Base):
     price = Column(Numeric(10, 2))
     
     def __repr__(self):
-        return f'Title: {self.author}\nPublished: {self.published}\nPrice: {self.price}\n'
+        return f'Author: {self.author}\nTitle: {self.title}\nPublished: {self.published}\nPrice: {self.price}\n'
