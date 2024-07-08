@@ -38,15 +38,17 @@ def show_all_books():
         entry_number += 1
 
 
-def search_book(index_number):
+def search_book():
+    print(f"Options: {[item[0] for item in books_holder.session.query(books_holder.Books.id)]}")
+    index_number = int(input("What is the book's id? "))
     for entry in books_holder.session.query(books_holder.Books).filter(books_holder.Books.id==index_number):
-        return entry
+        edit_or_delete_menu(entry)
 
 
 def edit_or_delete_menu(entry):
     while True:
         try:
-            option = int(input("what would you like to do?\n\n1) Edit a book\n2) Delete a book\n3) Exit\n\n>  "))
+            option = int(input(f"for entry:\n{entry}\nwhat would you like to do?\n\n1) Edit a book\n2) Delete a book\n3) Exit\n\n>  "))
             if option == 1:
                 edit_book(entry)
             elif option == 2:
@@ -127,10 +129,7 @@ def main_menu():
             elif decision == 2:
                 show_all_books()
             elif decision == 3:
-                print(f"Options: {[item[0] for item in books_holder.session.query(books_holder.Books.id)]}")
-                index_num = int(input("What is the book's id? "))
-                entry = search_book(index_num)
-                edit_or_delete_menu(entry)
+                search_book()
             elif decision == 4:
                 print(book_analysis_menu())
             elif decision == 5:
