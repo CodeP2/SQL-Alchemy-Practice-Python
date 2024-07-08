@@ -4,14 +4,19 @@ import datetime
 from decimal import Decimal
 
 
-def add_book(new_author, new_title, new_publish_time, new_price):
+def add_book():
+    new_author = input("Author: ")
+    new_title = input("Title of the book: ")
+    new_publish_time = input("Published (Example: January 13, 2005): ")
+    new_price = input("Price (Example: 12.22): ")
     try:
         date_conv, deci_conv = data_cleaning(new_publish_time, new_price)
         book = books_holder.Books(author=new_author, title=new_title, published=date_conv, price=deci_conv)
         books_holder.session.add(book)
         yes_or_no_menu()
     except ValueError as err:
-        print(f"failed to add a new book to data base: {err}")
+        input(f"failed to add a new book to data base: {err}\nPress enter to continue...")
+
 
 def data_cleaning(to_date=None, to_decimal=None, option=1):
     if option == 1:
@@ -51,7 +56,7 @@ def edit_or_delete_menu(entry):
             else:
                 print("Incorrect Choice!")
         except ValueError:
-            print(f"Incorect Choice!\nCorrect choices are: 1, 2, 3")
+            input(f"Incorect Choice!\nCorrect choices are: 1, 2, 3\nPress enter to continue...")
 
 
 def edit_book(entry):
@@ -118,11 +123,7 @@ def main_menu():
         try:
             decision = int(input("What Would you like to do?\n>  "))
             if decision == 1:
-                author = input("Author: ")
-                title = input("Title of the book: ")
-                published = input("Published (Example: January 13, 2005): ")
-                price = input("Price (Example: 12.22): ")
-                add_book(author, title, published, price)
+                add_book()
             elif decision == 2:
                 show_all_books()
             elif decision == 3:
