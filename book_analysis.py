@@ -15,3 +15,17 @@ def total_books():
 
 def avg_price():
     return books_holder.session.query(books_holder.func.avg(books_holder.Books.price)).scalar()
+
+
+def book_analysis_menu():
+    option = int(input("Analysis Menu\n1) Show the oldest book by publish date\n2) Show the newset book by publish date\
+                       \n3) Show total number of the books\n4) Average price for all books\n>  "))
+    if option == 1:
+        print(oldest_book())
+    elif option == 2:
+        print(newest_book())
+    elif option == 3:
+        print(total_books())
+    elif option == 4:
+        print(avg_price())
+    input("Press enter to continue...")
