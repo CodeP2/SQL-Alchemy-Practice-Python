@@ -22,3 +22,7 @@ class Books(Base):
     
     def __repr__(self):
         return f'Author: {self.author}\nTitle: {self.title}\nPublished: {self.published}\nPrice: {self.price}\n'
+
+
+if __name__ == "__main__":
+    Base.metadata.create_all(engine)

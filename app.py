@@ -140,5 +140,5 @@ def main_menu():
             print(f"Incorrect Choice.\nCorrect choices are: 1, 2, 3, 4, 5")
 
 
-books_holder.Base.metadata.create_all(books_holder.engine)
-main_menu()
+if __name__ == "__main__":
+    main_menu()
