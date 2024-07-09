@@ -17,24 +17,27 @@ def add_book():
 def get_date():
         while True:
             try:
-                to_date = input("Published (Example: June 13, 2005): ")
-                date = datetime.datetime.strptime(to_date, '%B %d, %Y').date()
+                get_date = input("Published (Example: June 13, 2005): ")
+                segments = [segment.strip() for segment in get_date.split(",")]
+                joined_segments = ", ".join(segments)
+                date = datetime.datetime.strptime(joined_segments, '%B %d, %Y').date()
                 return date
             except ValueError as err:
-                error_message(err, to_date, "June 13, 2005 (remember to add comma after a day!)")
+                error_message(err, get_date, "June 13, 2005 (remember to add comma after a day!)")
                 input("Press Enter to continue...")
 
 
 def get_decimal():
     while True:
         try:
-            to_decimal = input("Price (Example: 12.22): ")
-            decimal_value = Decimal(to_decimal)
+            get_decimal = input("Price (Example: 12.22): ")
+            striped_get_decimal = get_decimal.strip()
+            decimal_value = Decimal(striped_get_decimal)
             if decimal_value.as_tuple().exponent < -2:
                 raise ValueError("More than two decimal spaces")
             return decimal_value
         except (InvalidOperation, ValueError) as err:
-            error_message(err, to_decimal, "19.99 (where . is a period not a comma and no currency sign!)")
+            error_message(err, get_decimal, "19.99 (where . is a period not a comma and no currency sign!)")
             input("Press Enter to continue...")
 
 
