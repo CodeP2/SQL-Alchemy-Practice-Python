@@ -1,6 +1,7 @@
 import books_holder
 import add_and_get_data
 import accept_or_reject
+import error_messages
 
 
 def edit_or_delete_menu(entry):
@@ -20,19 +21,30 @@ def edit_or_delete_menu(entry):
 
 
 def edit_book(entry):
-    print(f"Currently you are trying to edit:\n{entry}")
-    option = int(input("What kind of entry would you like to change?\
-                        \n1) Author\n2) Publish data\n3) Price\n\n>  "))
-    if option == 1:
-        new_author = input("Author: ")
-        entry.author = new_author
-    elif option == 2:
-        clean = add_and_get_data.get_date()
-        entry.published = clean
-    elif option == 3:
-        clean = add_and_get_data.get_decimal()
-        entry.price = clean
-    accept_or_reject.accept_or_reject_menu()
+    while True:
+        print(f"Currently you are trying to edit:\n{entry}")
+        try:
+            option_string = input("What kind of entry would you like to change?\
+                        \n1) Author\n2) Publish data\n3) Price\n4) Finish editing.\n>  ")
+            option = int(option_string)
+            if option == 1:
+                new_author = input("Author: ")
+                entry.author = new_author
+            elif option == 2:
+                clean = add_and_get_data.get_date()
+                entry.published = clean
+            elif option == 3:
+                clean = add_and_get_data.get_decimal()
+                entry.price = clean
+            elif option == 4:
+                break
+            elif option not in [1, 2, 3, 4]:
+                input(f"Incorrect choice! Your option: {option}\n>  ")
+            else:
+                accept_or_reject.accept_or_reject_menu()
+        except ValueError:
+            error_messages.menu_choice_error("1, 2, 3, 4")
+
 
 
 def delete_book(entry):

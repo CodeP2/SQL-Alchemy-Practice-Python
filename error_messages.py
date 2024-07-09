@@ -5,7 +5,7 @@ def data_convertion_error_message(err, user_input, example):
           \r#Example: {example}
           \r##########################
           """)
-    input("Press enter to continue...")
+    press_enter()
 
 
 def integer_error_massage(user_input):
@@ -15,4 +15,17 @@ def integer_error_massage(user_input):
           \r#Example of a correct input: 1
           \r##########################
           """)
+    press_enter()
+
+
+def menu_choice_error(options):
+    print(f"""\r#########Error###########
+          \rIncorrect Choice!
+          \rcorrect choices are: {options}
+          \r##########################
+           """)
+    press_enter()
+
+
+def press_enter():
     input("Press enter to continue...")
