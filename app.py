@@ -1,4 +1,4 @@
-import add_and_clean_data
+import add_and_get_data
 import search_book
 import book_analysis
 
@@ -19,7 +19,7 @@ def main_menu():
         try:
             decision = int(input("What Would you like to do?\n>  "))
             if decision == 1:
-                add_and_clean_data.add_book()
+                add_and_get_data.add_book()
             elif decision == 2:
                 search_book.show_all_books()
             elif decision == 3:

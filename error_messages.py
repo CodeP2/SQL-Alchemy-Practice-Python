@@ -8,7 +8,7 @@ def data_convertion_error_message(err, user_input, example):
     input("Press enter to continue...")
 
 
-def integer_error_massage(user_input, options):
+def integer_error_massage(user_input):
     print(f"""\r#########Error###########
           \r#The input is not a number!
           \r#Your input: {user_input}
