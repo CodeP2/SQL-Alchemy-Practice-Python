@@ -27,12 +27,10 @@ def edit_book(entry):
         new_author = input("Author: ")
         entry.author = new_author
     elif option == 2:
-        new_publish = input("Published (Example: January 13, 2005): ")
-        clean = add_and_get_data.get_date(new_publish, None, 2)
+        clean = add_and_get_data.get_date()
         entry.published = clean
     elif option == 3:
-        new_price = input("Price (Example: 12.22): ")
-        clean = add_and_get_data.get_decimal(None, new_price, 3)
+        clean = add_and_get_data.get_decimal()
         entry.price = clean
     accept_or_reject.accept_or_reject_menu()
 
