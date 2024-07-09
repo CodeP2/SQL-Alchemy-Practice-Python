@@ -1,6 +1,7 @@
 import add_and_get_data
 import search_book
 import book_analysis
+import error_messages as error
 
 
 def main_menu_message():
@@ -31,8 +32,7 @@ def main_menu():
             else:
                 print(f"Incorrect Choice: {decision}")
         except ValueError:
-            input(f"Incorrect Choice.\nCorrect choices are: 1, 2, 3, 4, 5\
-                  \nPress enter to conitnue...")
+            error.menu_choice_error("1, 2, 3, 4, 5")
 
 
 if __name__ == "__main__":

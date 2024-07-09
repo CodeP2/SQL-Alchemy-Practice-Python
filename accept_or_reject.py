@@ -1,4 +1,5 @@
 import books_holder
+import error_messages as error
 
 
 def accept_or_reject_menu():
@@ -7,8 +8,7 @@ def accept_or_reject_menu():
         if question.lower() in ["y", "n"]:
             break
         else:
-            question = input(f"That's inncorrect input please try again (Correct inputs are (Y/N)\
-                            \nAre you sure you want to add/edit this user?(Y/N):\n")
+            error.menu_choice_error("Y/N")
     if question.lower() == "y":
         books_holder.session.commit()
         print("Book added!")

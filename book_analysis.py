@@ -1,4 +1,5 @@
 import books_holder
+import error_messages as error
 
 
 def oldest_book():
@@ -18,14 +19,24 @@ def avg_price():
 
 
 def book_analysis_menu():
-    option = int(input("Analysis Menu\n1) Show the oldest book by publish date\n2) Show the newset book by publish date\
-                       \n3) Show total number of the books\n4) Average price for all books\n>  "))
-    if option == 1:
-        print(oldest_book())
-    elif option == 2:
-        print(newest_book())
-    elif option == 3:
-        print(total_books())
-    elif option == 4:
-        print(avg_price())
-    input("Press enter to continue...")
+    while True:
+        try:
+            option_string = input("Analysis Menu\n1) Show the oldest book by publish date\n2) Show the newset book by publish date\
+                       \n3) Show total number of the books\n4) Average price for all books\n5) Exit\n>  ")
+            option = int(option_string)
+            if option == 1:
+                print(oldest_book())
+            elif option == 2:
+                print(newest_book())
+            elif option == 3:
+                print(total_books())
+            elif option == 4:
+                print(avg_price())
+            elif option == 5:
+                break
+            elif option not in [1, 2, 3, 4, 5]:
+                error.menu_choice_error("1, 2, 3, 4")
+            else:
+                input("Press enter to continue...")
+        except ValueError:
+            error.menu_choice_error("1, 2, 3, 4")

@@ -1,7 +1,7 @@
 import books_holder
 import add_and_get_data
 import accept_or_reject
-import error_messages
+import error_messages as error
 
 
 def edit_or_delete_menu(entry):
@@ -15,9 +15,9 @@ def edit_or_delete_menu(entry):
             elif option == 3:
                 break
             else:
-                print("Incorrect Choice!")
+                error.menu_choice_error("1, 2, 3")
         except ValueError:
-            input(f"Incorect Choice!\nCorrect choices are: 1, 2, 3\nPress enter to continue...")
+            error.menu_choice_error("1, 2, 3")
 
 
 def edit_book(entry):
@@ -39,19 +39,22 @@ def edit_book(entry):
             elif option == 4:
                 break
             elif option not in [1, 2, 3, 4]:
-                input(f"Incorrect choice! Your option: {option}\n>  ")
+                error.menu_choice_error("1, 2, 3, 4")
             else:
                 accept_or_reject.accept_or_reject_menu()
         except ValueError:
-            error_messages.menu_choice_error("1, 2, 3, 4")
+            error.menu_choice_error("1, 2, 3, 4")
 
 
 
 def delete_book(entry):
-    confirm_to_delete = input("Are you sure you want to delete the book?(Y/N)\
+    while True:
+        confirm_to_delete = input("Are you sure you want to delete the book?(Y/N)\
                             \n(WARNING: This cannot be undone)\n\n>  ")
-    if confirm_to_delete.lower() == "y":
-        books_holder.session.delete(entry)
-        books_holder.session.commit()
-    else:
-        pass
+        if confirm_to_delete.lower() == "y":
+            books_holder.session.delete(entry)
+            books_holder.session.commit()
+        elif confirm_to_delete.lower() not in ["y", "n"]:
+            error.menu_choice_error("Y/N")
+        else:
+            break
