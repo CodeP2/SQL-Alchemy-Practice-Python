@@ -24,7 +24,7 @@ def main_menu():
             elif decision == 2:
                 search_book.show_all_books()
             elif decision == 3:
-                search_book.search_book()
+                search_book.search_book_menu()
             elif decision == 4:
                 print(book_analysis.book_analysis_menu())
             elif decision == 5:
