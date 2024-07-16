@@ -6,22 +6,31 @@ def Index_list():
 
 
 def author_name_list():
-    author_names = []
-    for entry in books_holder.session.query(books_holder.Books.author):
-        author_names.append(entry)
+    author_names = collect_entries("author")
     stop_entries(author_names)
 
 
 def title_list():
-    return [item[0] for item in books_holder.session.query(books_holder.Books.title)]
+    title_names = collect_entries("title")
+    stop_entries(title_names)
 
 
 def publish_date_list():
-    return [item[0] for item in books_holder.session.query(books_holder.Books.published)]
+    publish_dates = collect_entries("published")
+    stop_entries(publish_dates)
 
 
 def price_list():
-    return [item[0] for item in books_holder.session.query(books_holder.Books.price)]
+    prices = collect_entries("price")
+    stop_entries(prices)
+
+
+def collect_entries(column_name):
+    empty_list = []
+    column = getattr(books_holder.Books, column_name)
+    for entry in books_holder.session.query(column):
+        empty_list.append(entry)
+    return empty_list
 
 
 def stop_entries(entry):
