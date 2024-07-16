@@ -2,21 +2,12 @@ import add_and_get_data
 import search_book
 import book_analysis
 import error_messages as error
-
-
-def main_menu_message():
-    print("""\rPROGRAMING BOOKS
-          \r1) Add Book
-          \r2) View All Books
-          \r3) Search for a book
-          \r4) Book Analysis
-          \r5) Exit
-          """)
+import menu_messages
 
 
 def main_menu():
     while True:
-        main_menu_message()
+        menu_messages.main_menu()
         try:
             decision = int(input("What Would you like to do?\n>  "))
             if decision == 1:

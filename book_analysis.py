@@ -1,5 +1,6 @@
 import books_holder
 import error_messages as error
+import menu_messages
 
 
 def oldest_book():
@@ -20,9 +21,9 @@ def avg_price():
 
 def book_analysis_menu():
     while True:
+        menu_messages.analysis_menu()
         try:
-            option_string = input("Analysis Menu\n1) Show the oldest book by publish date\n2) Show the newset book by publish date\
-                       \n3) Show total number of the books\n4) Average price for all books\n5) Exit\n>  ")
+            option_string = input("\n>  ")
             option = int(option_string)
             if option == 1:
                 print(oldest_book())

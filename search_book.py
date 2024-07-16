@@ -1,5 +1,7 @@
 import books_holder
 import search_by_x
+import error_messages
+import menu_messages
 
 
 def show_all_books():
@@ -11,14 +13,22 @@ def show_all_books():
 
 def search_book_menu():
     while True:
-        print("Search book menu:\n1) Search by index\n2) Search by author's name\n3) Search by title\
-              \n4) Search by published date\n5) Search by price\n6) Exit")
-        option = int(input("What would you like to do?\n>  "))
-        if option == 1:
-            search_by_x.search_by_index()
-        elif option == 2:
-            search_by_x.search_by_name()
-        elif option == 6:
-            break
-        else:
-            print("Incorrect choice!")
+        menu_messages.search_book_menu()
+        try:
+            option = int(input("What would you like to do?\n>  "))
+            if option == 1:
+                search_by_x.search_by_index()
+            elif option == 2:
+                search_by_x.search_by_name()
+            elif option == 3:
+                search_by_x.search_by_title()
+            elif option == 4:
+                search_by_x.search_by_publish_date()
+            elif option == 5:
+                search_by_x.search_by_price()
+            elif option == 6:
+                break
+            else:
+                print("Incorrect choice!")
+        except ValueError:
+            error_messages.menu_choice_error("1, 2, 3, 4, 5, 6")
