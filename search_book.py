@@ -31,4 +31,4 @@ def search_book_menu():
             else:
                 print("Incorrect choice!")
         except ValueError:
-            error_messages.menu_choice_error("1, 2, 3, 4, 5, 6")
+            error_messages.menu_choice_error("1, 2, 3, 4, 5, 6,")

@@ -1,4 +1,5 @@
 import books_holder
+import datetime
 
 
 def Index_list():
@@ -19,13 +20,13 @@ def title_list():
 
 def publish_date_list():
     publish_dates, column_names = collect_entries("published")
-    stop_entries(publish_dates)
+    stop_entries(publish_dates, True)
     return get_entry_values_by(column_names)
 
 
 def price_list():
     prices, column_names = collect_entries("price")
-    stop_entries(prices)
+    stop_entries(prices, False, True)
     return get_entry_values_by(column_names)
 
 
@@ -37,10 +38,15 @@ def collect_entries(column_name):
     return empty_list, column
 
 
-def stop_entries(entry):
+def stop_entries(entry, date=False, decimal=False):
     counter = 0
     for item in entry:
-        print(item)
+        if date:
+            print(datetime.datetime.strftime(item[0], '%B %d, %Y'))
+        elif decimal:
+            print(float(item[0]))
+        else:
+            print(item[0])
         counter += 1
         if counter == 5:
             input("press enter to continue...")
